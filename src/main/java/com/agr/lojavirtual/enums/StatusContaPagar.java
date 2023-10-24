@@ -2,7 +2,13 @@ package com.agr.lojavirtual.enums;
 
 public enum StatusContaPagar {
 
-	COBRANCA("pagar"), VENCIDA("Vencida"), ABERTA("Aberta"), QITADA("Quitada"), NEGOCIADA("Renegociada");
+	COBRANCA("pagar"), 
+	VENCIDA("Vencida"), 
+	ABERTA("Aberta"), 
+	QUITADA("Quitada"),
+	ALUGUEL("Aluguel"),
+	FUNCIONARIO("funcionário"),
+	NEGOCIADA("Renegociada");
 
 	private String descricao;
 
