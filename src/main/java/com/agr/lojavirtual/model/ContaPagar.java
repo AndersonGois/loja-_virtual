@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -31,18 +32,24 @@ public class ContaPagar implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_conta_pagar")
 	private Long id;
-	private String descricao;
-	private BigDecimal valorTotal;
 
-	@Temporal(TemporalType.DATE)
-	private Date dtVencimento;
+	@Column(nullable = false)
+	private String descricao;
+
+	@Column(nullable = false)
+	private BigDecimal valorTotal;
 
 	@Temporal(TemporalType.DATE)
 	private Date dtPagamento;
 	private BigDecimal valorDesconto;
 
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private StatusContaPagar status;
+
+	@Column(nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date dtVencimento;
 
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "Pessoa_fk"))
