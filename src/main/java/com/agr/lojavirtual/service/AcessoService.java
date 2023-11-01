@@ -17,4 +17,8 @@ public class AcessoService {
 
 	}
 
+	public void delete(Acesso acesso) {
+		 acessoRepository.deleteById(acesso.getId());
+	}
+
 }
