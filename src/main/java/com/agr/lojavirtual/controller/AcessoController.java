@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agr.lojavirtual.model.Acesso;
 import com.agr.lojavirtual.service.AcessoService;
 
+//@CrossOrigin(origins = "https://www.agrsolucoes.com.br")
 @Controller
 @RestController()
 public class AcessoController {
@@ -39,6 +40,8 @@ public class AcessoController {
 		return new ResponseEntity<String>("Acesso removido",HttpStatus.OK);
 	}
 	
+
+	// @Secured({ "ROLE_GERENTE", "ROLE_ADMIN" })
 	@ResponseBody   // Poder dar um retorno da API
 	@DeleteMapping(value =  "/deleteAcessoPorId/{id}")
 	public ResponseEntity<String>  deleteAcessoPorId(@PathVariable Long id) {
