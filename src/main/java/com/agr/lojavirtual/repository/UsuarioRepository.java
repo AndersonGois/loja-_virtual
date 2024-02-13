@@ -15,4 +15,7 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 	@Query(value = "select u from Usuario u where u.login =:login")
 	Usuario findUserByLogin(@Param("login") String login);
 
+	@Query(value = "select u from Usuario u where u.login =:login")
+	String consultaContraintRole();
+	
 }

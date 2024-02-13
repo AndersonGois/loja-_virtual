@@ -22,6 +22,16 @@ import com.agr.lojavirtual.model.dto.ObjetoErroDTO;
 @ControllerAdvice
 public class ControleExcecoes extends ResponseEntityExceptionHandler {
 	
+	@ExceptionHandler(ExceptionLojaVirtual.class)
+	public ResponseEntity<Object> handleExceptionCuston(ExceptionLojaVirtual ex) {
+		ObjetoErroDTO dto = new ObjetoErroDTO();
+		
+		dto.setError(ex.getMessage());
+		dto.setCode(HttpStatus.OK.toString());
+		
+		return new ResponseEntity<Object>(dto, HttpStatus.OK);
+	}
+	
 	/* Captura excessões do projeto */
 	@ExceptionHandler({ Exception.class, RuntimeException.class, Throwable.class })
 	@Override
@@ -47,6 +57,8 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
 		}
 		dto.setError(msg);
 		dto.setCode(status.value() + " ==> " + status.getReasonPhrase());
+		
+		ex.printStackTrace();
 		
 		return new ResponseEntity<Object>(dto, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
@@ -74,6 +86,8 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
 		
 		dto.setError(msg);
 		dto.setCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+		
+		ex.printStackTrace();
 		
 		return new ResponseEntity<Object>(dto, HttpStatus.INTERNAL_SERVER_ERROR);
 	}

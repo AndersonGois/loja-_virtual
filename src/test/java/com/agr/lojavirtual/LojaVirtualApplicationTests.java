@@ -1,5 +1,6 @@
 package com.agr.lojavirtual;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ public class LojaVirtualApplicationTests extends TestCase {
 		MockMvc mockMvc = builder.build();
 
 		Acesso acesso = new Acesso();
-		acesso.setDescricao("ROLE_COMPRADOR");
+		acesso.setDescricao("ROLE_COMPRADOR" + Calendar.getInstance().getTimeInMillis());
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
@@ -64,7 +65,7 @@ public class LojaVirtualApplicationTests extends TestCase {
 		MockMvc mockMvc = builder.build();
 
 		Acesso acesso = new Acesso();
-		acesso.setDescricao("ROLE_COMPRADOR");
+		acesso.setDescricao("ROLE_COMPRADOR103" + Calendar.getInstance().getTimeInMillis());
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
@@ -85,7 +86,7 @@ public class LojaVirtualApplicationTests extends TestCase {
 	@Test
 	public void testRestApiDeleteAcesso() throws JsonProcessingException, Exception {
 		Acesso acesso = new Acesso();
-		acesso.setDescricao("ROLE_ADMIN236");
+		acesso.setDescricao("ROLE_ADMIN236" + Calendar.getInstance().getTimeInMillis());
 
 		assertEquals(true, acesso.getId() == null);
 
@@ -114,11 +115,11 @@ public class LojaVirtualApplicationTests extends TestCase {
 	@Test
 	public void testRestApiDeleteAcessoPorId() throws JsonProcessingException, Exception {
 		Acesso acesso = new Acesso();
-		acesso.setDescricao("ROLE_ADMIN_POR_ID");
+		acesso.setDescricao("ROLE_ADMIN_POR_ID100" + Calendar.getInstance().getTimeInMillis());
 
 		assertEquals(true, acesso.getId() == null);
 
-		acesso = acessoController.SalvarAcesso(acesso).getBody();
+		acesso = acessoController.salvarAcesso(acesso).getBody();
 
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
 		MockMvc mockMvc = builder.build();
@@ -144,11 +145,11 @@ public class LojaVirtualApplicationTests extends TestCase {
 	@Test
 	public void testRestApiObterAcessoPorId() throws JsonProcessingException, Exception {
 		Acesso acesso = new Acesso();
-		acesso.setDescricao("ROLE_ADMIN_Obter_POR_ID");
+		acesso.setDescricao("ROLE_ADMIN_Obter_POR_ID102");
 
 		assertEquals(true, acesso.getId() == null);
 
-		acesso = acessoController.SalvarAcesso(acesso).getBody();
+		acesso = acessoController.salvarAcesso(acesso).getBody();
 
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
 		MockMvc mockMvc = builder.build();
@@ -178,11 +179,12 @@ public class LojaVirtualApplicationTests extends TestCase {
 	@Test
 	public void testRestApiObterAcessoPordesc() throws JsonProcessingException, Exception {
 		Acesso acesso = new Acesso();
-		acesso.setDescricao("ROLE_ADMIN_Obter_POR_Desc");
+		acesso
+		   .setDescricao("ROLE_ADMIN_Obter_POR_Desc104" + Calendar.getInstance().getTimeInMillis());
 
 		assertEquals(true, acesso.getId() == null);
 
-		acesso = acessoController.SalvarAcesso(acesso).getBody();
+		acesso = acessoController.salvarAcesso(acesso).getBody();
 
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
 		MockMvc mockMvc = builder.build();
@@ -192,7 +194,8 @@ public class LojaVirtualApplicationTests extends TestCase {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		ResultActions retornoApi = mockMvc
-				.perform(MockMvcRequestBuilders.get("/obterAcessoPordesc/" + acesso.getDescricao().trim().toUpperCase())
+		   .perform(MockMvcRequestBuilders
+		      .get("/obterAcessoPorDesc/" + acesso.getDescricao().trim().toUpperCase())
 						.content(objectMapper.writeValueAsString(acesso)).accept(MediaType.APPLICATION_JSON)
 						.contentType(MediaType.APPLICATION_JSON));
 
@@ -218,14 +221,14 @@ public class LojaVirtualApplicationTests extends TestCase {
 	}
 
 	@Test
-	public void testeCadastraAcesso() {
+	public void testeCadastraAcesso() throws ExceptionLojaVirtual {
 
 		Acesso acesso = new Acesso();
 		acesso.setDescricao("ROLE_ADMIN2");
 
 		assertEquals(true, acesso.getId() == null);
 
-		acesso = acessoController.SalvarAcesso(acesso).getBody();
+		acesso = acessoController.salvarAcesso(acesso).getBody();
 
 		assertEquals(true, acesso.getId() > 0);
 		assertEquals("ROLE_ADMIN2", acesso.getDescricao());
@@ -245,7 +248,7 @@ public class LojaVirtualApplicationTests extends TestCase {
 		acesso = new Acesso();
 		acesso.setDescricao("ROLE_ALUNO");
 
-		acesso = acessoController.SalvarAcesso(acesso).getBody();
+		acesso = acessoController.salvarAcesso(acesso).getBody();
 
 		List<Acesso> acessos = acessoRepository.buscarAcessoDesc("ALUNO".trim().toUpperCase());
 
