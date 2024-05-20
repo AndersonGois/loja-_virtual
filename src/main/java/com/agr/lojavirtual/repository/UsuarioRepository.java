@@ -12,6 +12,7 @@ import com.agr.lojavirtual.model.Usuario;
 @Transactional
 public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 	
+//	@Query(value = "select u from Usuario u where u.login =?1")
 	@Query(value = "select u from Usuario u where u.login =:login")
 	Usuario findUserByLogin(@Param("login") String login);
 

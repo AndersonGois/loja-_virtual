@@ -27,15 +27,31 @@ public class AcessoController {
 	private AcessoService acessoService;
 	
 	@ResponseBody // Poder dar um retorno da API
-	@PostMapping(value =  "/salvarAcesso")
-	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso)
+	@PostMapping(value = "/salvarAcesso")
+	public ResponseEntity<?> salvarAcesso(@RequestBody Acesso acesso)
 	   throws ExceptionLojaVirtual {
-		Acesso acessoSalvo = acessoService.salvar(acesso);
-		if (acessoSalvo == null) {
-			throw new ExceptionLojaVirtual("O registro de acesso já está cadastrado.");
+		try {
+			Acesso acessoSalvo = acessoService.salvar(acesso);
+			
+			return new ResponseEntity<Acesso>(acessoSalvo, HttpStatus.OK);
+			
+		} catch (ExceptionLojaVirtual e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<Acesso>(acessoSalvo, HttpStatus.OK);
 	}
+//	
+//	@ResponseBody
+//	@PostMapping(value = "/salvar")
+//	public ResponseEntity<?> salvarAcesso(@RequestBody Acesso acesso)
+//	   throws ExceptionLojaVirtual {
+//		try {
+//			Acesso acessosalvo = acessoService.salvar2(acesso);
+//			return new ResponseEntity<>(acessosalvo, HttpStatus.OK);
+//			
+//		} catch (ExceptionLojaVirtual e) {
+//			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//		}
+//	}
 	
 	
 	@ResponseBody   // Poder dar um retorno da API
@@ -46,6 +62,7 @@ public class AcessoController {
 	}
 	
 
+	// @CrossOrigin(origins = "https://www.site.com")
 	// @Secured({ "ROLE_GERENTE", "ROLE_ADMIN" })
 	@ResponseBody   // Poder dar um retorno da API
 	@DeleteMapping(value =  "/deleteAcessoPorId/{id}")
@@ -54,16 +71,28 @@ public class AcessoController {
 		return new ResponseEntity<String>("Acesso removido por id",HttpStatus.OK);
 	}
 	
-	@ResponseBody   
-	@GetMapping(value =  "/obterAcessoPorId/{id}")
+	@ResponseBody
+	@GetMapping(value = "/obterAcessoPorId/{id}")
 	public ResponseEntity<Acesso> obterAcessoPorId(@PathVariable Long id)
 	   throws ExceptionLojaVirtual {
-	Acesso acesso = acessoService.obterAcessoPorId(id);
+		Acesso acesso = acessoService.obterAcessoPorId(id);
 		if (acesso == null) {
 			throw new ExceptionLojaVirtual("Não encontrou acesso com codigo:  " + id);
 		}
-		return new ResponseEntity<Acesso>(acesso,HttpStatus.OK);
+		return new ResponseEntity<Acesso>(acesso, HttpStatus.OK);
 	}
+	
+//	@ResponseBody
+//	@GetMapping(value = "/obterAcessoById/{id}")
+//	public ResponseEntity<Acesso> obterAcessoById(@PathVariable Long id)
+//	   throws ExceptionLojaVirtual {
+//		Acesso acesso = acessoService.obterAcessoByid2(id);
+//		if (acesso == null) {
+//			throw new ExceptionLojaVirtual("Não encontrou acesso com codigo " + id);
+//		}
+//		return new ResponseEntity<Acesso>(acesso,HttpStatus.OK);
+//	}
+	
 	@ResponseBody   
 	@GetMapping(value = "/obterAcessoPorDesc/{desc}")
 	public ResponseEntity<List<Acesso>>  obterAcessoPorId(@PathVariable(name = "desc") String desc) {

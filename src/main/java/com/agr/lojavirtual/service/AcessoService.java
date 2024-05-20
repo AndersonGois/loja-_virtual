@@ -47,4 +47,19 @@ public class AcessoService {
 		return acessoRepository.buscarAcessoDesc(desc);
 	}
 
+	public Acesso obterAcessoByid(Long id) {
+		return acessoRepository.findById(id).orElse(null);
+	}
+	
+	public Acesso obterAcessoByid2(Long id) {
+		return acessoRepository.findById(id).orElse(null);
+	}
+	
+	public Acesso salvar2(Acesso acesso) throws ExceptionLojaVirtual {
+		if (acesso.getDescricao() == null || acesso.getDescricao().isEmpty()) {
+			throw new ExceptionLojaVirtual("descrição Obrigatoria");
+		}
+		return acessoRepository.save(acesso);
+	}
+	
 }

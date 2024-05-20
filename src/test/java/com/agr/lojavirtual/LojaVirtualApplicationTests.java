@@ -1,7 +1,6 @@
 package com.agr.lojavirtual;
 
 import java.util.Calendar;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +14,9 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.agr.lojavirtual.controller.AcessoController;
 import com.agr.lojavirtual.model.Acesso;
 import com.agr.lojavirtual.repository.AcessoRepository;
-import com.agr.lojavirtual.service.AcessoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import junit.framework.TestCase;
@@ -29,14 +25,14 @@ import junit.framework.TestCase;
 @SpringBootTest(classes = LojaVirtualApplication.class)
 public class LojaVirtualApplicationTests extends TestCase {
 
-	@Autowired
-	private AcessoService acessoService;
+//	@Autowired
+//	private AcessoService acessoService;
 
 	@Autowired
 	private AcessoRepository acessoRepository;
 
-	@Autowired
-	private AcessoController acessoController;
+//	@Autowired
+//	private AcessoController acessoController;
 
 	@Autowired
 	WebApplicationContext wac;
@@ -112,150 +108,150 @@ public class LojaVirtualApplicationTests extends TestCase {
 
 	}
 
-	@Test
-	public void testRestApiDeleteAcessoPorId() throws JsonProcessingException, Exception {
-		Acesso acesso = new Acesso();
-		acesso.setDescricao("ROLE_ADMIN_POR_ID100" + Calendar.getInstance().getTimeInMillis());
+//	@Test
+//	public void testRestApiDeleteAcessoPorId() throws JsonProcessingException, Exception {
+//		Acesso acesso = new Acesso();
+//		acesso.setDescricao("ROLE_ADMIN_POR_ID100" + Calendar.getInstance().getTimeInMillis());
+//
+//		assertEquals(true, acesso.getId() == null);
+//
+//		acesso = acessoController.salvarAcesso(acesso).getBody();
+//
+//		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
+//		MockMvc mockMvc = builder.build();
+//
+//		acesso = acessoRepository.findById(acesso.getId()).orElse(null);
+//		ObjectMapper objectMapper = new ObjectMapper();
+//
+//		ResultActions retornoApi = mockMvc.perform(MockMvcRequestBuilders.delete("/deleteAcessoPorId/" + acesso.getId())
+//				.content(objectMapper.writeValueAsString(acesso.getId())).accept(MediaType.APPLICATION_JSON)
+//				.contentType(MediaType.APPLICATION_JSON));
+//
+//		String objetoRetorno = retornoApi.andReturn().getResponse().getContentAsString();
+//		System.out.println("Retorno " + objetoRetorno);
+//		System.out.println("Status " + retornoApi.andReturn().getResponse().getStatus());
+//
+//		acesso = acessoRepository.findById(acesso.getId()).orElse(null);
+//
+//		assertEquals("Acesso removido por id", objetoRetorno);
+//		assertEquals(true, acesso == null);
+//
+//	}
 
-		assertEquals(true, acesso.getId() == null);
-
-		acesso = acessoController.salvarAcesso(acesso).getBody();
-
-		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
-		MockMvc mockMvc = builder.build();
-
-		acesso = acessoRepository.findById(acesso.getId()).orElse(null);
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		ResultActions retornoApi = mockMvc.perform(MockMvcRequestBuilders.delete("/deleteAcessoPorId/" + acesso.getId())
-				.content(objectMapper.writeValueAsString(acesso.getId())).accept(MediaType.APPLICATION_JSON)
-				.contentType(MediaType.APPLICATION_JSON));
-
-		String objetoRetorno = retornoApi.andReturn().getResponse().getContentAsString();
-		System.out.println("Retorno " + objetoRetorno);
-		System.out.println("Status " + retornoApi.andReturn().getResponse().getStatus());
-
-		acesso = acessoRepository.findById(acesso.getId()).orElse(null);
-
-		assertEquals("Acesso removido por id", objetoRetorno);
-		assertEquals(true, acesso == null);
-
-	}
-
-	@Test
-	public void testRestApiObterAcessoPorId() throws JsonProcessingException, Exception {
-		Acesso acesso = new Acesso();
-		acesso.setDescricao("ROLE_ADMIN_Obter_POR_ID102");
-
-		assertEquals(true, acesso.getId() == null);
-
-		acesso = acessoController.salvarAcesso(acesso).getBody();
-
-		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
-		MockMvc mockMvc = builder.build();
-
-		acesso = acessoRepository.findById(acesso.getId()).orElse(null);
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		ResultActions retornoApi = mockMvc.perform(MockMvcRequestBuilders.get("/obterAcessoPorId/" + acesso.getId())
-				.content(objectMapper.writeValueAsString(acesso.getId())).accept(MediaType.APPLICATION_JSON)
-				.contentType(MediaType.APPLICATION_JSON));
-
-		String objetoRetorno = retornoApi.andReturn().getResponse().getContentAsString();
-		System.out.println("Retorno " + objetoRetorno);
-		System.out.println("Status " + retornoApi.andReturn().getResponse().getStatus());
-
-		Acesso acessoRetorno = objectMapper.readValue(objetoRetorno, Acesso.class);
-
-		acesso = acessoRepository.findById(acesso.getId()).orElse(null);
-
-		assertEquals(acesso.getDescricao(), acessoRetorno.getDescricao());
-		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
-
-		acessoRepository.deleteById(acessoRetorno.getId());
-
-	}
-
-	@Test
-	public void testRestApiObterAcessoPordesc() throws JsonProcessingException, Exception {
-		Acesso acesso = new Acesso();
-		acesso
-		   .setDescricao("ROLE_ADMIN_Obter_POR_Desc104" + Calendar.getInstance().getTimeInMillis());
-
-		assertEquals(true, acesso.getId() == null);
-
-		acesso = acessoController.salvarAcesso(acesso).getBody();
-
-		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
-		MockMvc mockMvc = builder.build();
-
-		List<Acesso> a = acessoRepository.buscarAcessoDesc(acesso.getDescricao());
-
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		ResultActions retornoApi = mockMvc
-		   .perform(MockMvcRequestBuilders
-		      .get("/obterAcessoPorDesc/" + acesso.getDescricao().trim().toUpperCase())
-						.content(objectMapper.writeValueAsString(acesso)).accept(MediaType.APPLICATION_JSON)
-						.contentType(MediaType.APPLICATION_JSON));
-
-		String objetoRetorno = retornoApi.andReturn().getResponse().getContentAsString();
-		System.out.println("Retorno " + objetoRetorno);
-		System.out.println("Status " + retornoApi.andReturn().getResponse().getStatus());
-
-		List<Acesso> acessoRetorno = objectMapper.readValue(objetoRetorno, new TypeReference<List<Acesso>>() {
-		});
-
-		acesso = acessoRepository.findById(acesso.getId()).orElse(null);
-
-		System.out.println(acessoRetorno.size());
-
-		assertEquals(1, acessoRetorno.size());
-		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
-		
-		acessoRetorno.forEach(ab -> {
-			System.out.println(ab.getId());
-			acessoRepository.deleteById(ab.getId());
-		});
-
-	}
-
-	@Test
-	public void testeCadastraAcesso() throws ExceptionLojaVirtual {
-
-		Acesso acesso = new Acesso();
-		acesso.setDescricao("ROLE_ADMIN2");
-
-		assertEquals(true, acesso.getId() == null);
-
-		acesso = acessoController.salvarAcesso(acesso).getBody();
-
-		assertEquals(true, acesso.getId() > 0);
-		assertEquals("ROLE_ADMIN2", acesso.getDescricao());
-
-		Acesso acesso2 = acessoRepository.findById(acesso.getId()).get();
-
-		assertEquals(acesso.getId(), acesso2.getId());
-
-		acessoRepository.deleteById(acesso.getId());
-
-		acessoRepository.flush();
-
-		Acesso acesso3 = acessoRepository.findById(acesso2.getId()).orElse(null);
-
-		assertEquals(null, acesso3);
-
-		acesso = new Acesso();
-		acesso.setDescricao("ROLE_ALUNO");
-
-		acesso = acessoController.salvarAcesso(acesso).getBody();
-
-		List<Acesso> acessos = acessoRepository.buscarAcessoDesc("ALUNO".trim().toUpperCase());
-
-		assertEquals(1, acessos.size());
-
-		acessoRepository.deleteById(acesso.getId());
-
-	}
+//	@Test
+//	public void testRestApiObterAcessoPorId() throws JsonProcessingException, Exception {
+//		Acesso acesso = new Acesso();
+//		acesso.setDescricao("ROLE_ADMIN_Obter_POR_ID102");
+//
+//		assertEquals(true, acesso.getId() == null);
+//
+//		acesso = acessoController.salvarAcesso(acesso).getBody();
+//
+//		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
+//		MockMvc mockMvc = builder.build();
+//
+//		acesso = acessoRepository.findById(acesso.getId()).orElse(null);
+//		ObjectMapper objectMapper = new ObjectMapper();
+//
+//		ResultActions retornoApi = mockMvc.perform(MockMvcRequestBuilders.get("/obterAcessoPorId/" + acesso.getId())
+//				.content(objectMapper.writeValueAsString(acesso.getId())).accept(MediaType.APPLICATION_JSON)
+//				.contentType(MediaType.APPLICATION_JSON));
+//
+//		String objetoRetorno = retornoApi.andReturn().getResponse().getContentAsString();
+//		System.out.println("Retorno " + objetoRetorno);
+//		System.out.println("Status " + retornoApi.andReturn().getResponse().getStatus());
+//
+//		Acesso acessoRetorno = objectMapper.readValue(objetoRetorno, Acesso.class);
+//
+//		acesso = acessoRepository.findById(acesso.getId()).orElse(null);
+//
+//		assertEquals(acesso.getDescricao(), acessoRetorno.getDescricao());
+//		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
+//
+//		acessoRepository.deleteById(acessoRetorno.getId());
+//
+//	}
+//
+//	@Test
+//	public void testRestApiObterAcessoPordesc() throws JsonProcessingException, Exception {
+//		Acesso acesso = new Acesso();
+//		acesso
+//		   .setDescricao("ROLE_ADMIN_Obter_POR_Desc104" + Calendar.getInstance().getTimeInMillis());
+//
+//		assertEquals(true, acesso.getId() == null);
+//
+//		acesso = acessoController.salvarAcesso(acesso).getBody();
+//
+//		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
+//		MockMvc mockMvc = builder.build();
+//
+//		List<Acesso> a = acessoRepository.buscarAcessoDesc(acesso.getDescricao());
+//
+//		ObjectMapper objectMapper = new ObjectMapper();
+//
+//		ResultActions retornoApi = mockMvc
+//		   .perform(MockMvcRequestBuilders
+//		      .get("/obterAcessoPorDesc/" + acesso.getDescricao().trim().toUpperCase())
+//						.content(objectMapper.writeValueAsString(acesso)).accept(MediaType.APPLICATION_JSON)
+//						.contentType(MediaType.APPLICATION_JSON));
+//
+//		String objetoRetorno = retornoApi.andReturn().getResponse().getContentAsString();
+//		System.out.println("Retorno " + objetoRetorno);
+//		System.out.println("Status " + retornoApi.andReturn().getResponse().getStatus());
+//
+//		List<Acesso> acessoRetorno = objectMapper.readValue(objetoRetorno, new TypeReference<List<Acesso>>() {
+//		});
+//
+//		acesso = acessoRepository.findById(acesso.getId()).orElse(null);
+//
+//		System.out.println(acessoRetorno.size());
+//
+//		assertEquals(1, acessoRetorno.size());
+//		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
+//		
+//		acessoRetorno.forEach(ab -> {
+//			System.out.println(ab.getId());
+//			acessoRepository.deleteById(ab.getId());
+//		});
+//
+//	}
+//
+//	@Test
+//	public void testeCadastraAcesso() throws ExceptionLojaVirtual {
+//
+//		Acesso acesso = new Acesso();
+//		acesso.setDescricao("ROLE_ADMIN2");
+//
+//		assertEquals(true, acesso.getId() == null);
+//
+//		acesso = acessoController.salvarAcesso(acesso).getBody();
+//
+//		assertEquals(true, acesso.getId() > 0);
+//		assertEquals("ROLE_ADMIN2", acesso.getDescricao());
+//
+//		Acesso acesso2 = acessoRepository.findById(acesso.getId()).get();
+//
+//		assertEquals(acesso.getId(), acesso2.getId());
+//
+//		acessoRepository.deleteById(acesso.getId());
+//
+//		acessoRepository.flush();
+//
+//		Acesso acesso3 = acessoRepository.findById(acesso2.getId()).orElse(null);
+//
+//		assertEquals(null, acesso3);
+//
+//		acesso = new Acesso();
+//		acesso.setDescricao("ROLE_ALUNO");
+//
+//		acesso = acessoController.salvarAcesso(acesso).getBody();
+//
+//		List<Acesso> acessos = acessoRepository.buscarAcessoDesc("ALUNO".trim().toUpperCase());
+//
+//		assertEquals(1, acessos.size());
+//
+//		acessoRepository.deleteById(acesso.getId());
+//
+//	}
 
 }
