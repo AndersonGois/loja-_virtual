@@ -20,46 +20,45 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.agr.lojavirtual.model.Coco;
+import com.agr.lojavirtual.model.UsuarioTeste;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Profile("dev")
 @SpringBootTest(classes = LojaVirtualApplication.class)
-public class CocoTests {
+public class UsuarioTesteTests {
 	
 	@Autowired
 	WebApplicationContext wac;
-	private Coco coco;
+	private UsuarioTeste user;
 	
 	@BeforeEach
 	public void init() throws Exception {
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(wac);
 		MockMvc mockMvc = builder.build();
-		// Cria um novo objeto Coco
-		Coco novoCoco = new Coco();
-		novoCoco.setCheiro("Bom" + Calendar.getInstance().getTimeInMillis());
-		novoCoco.setDono("Anderson" + Calendar.getInstance().getTimeInMillis());
+		// Cria um novo objeto UsuarioTeste
+		UsuarioTeste novoUsuarioTeste = new UsuarioTeste();
+		novoUsuarioTeste.setNome("Bom" + Calendar.getInstance().getTimeInMillis());
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		
-		// Salva o novo objeto Coco
-		ResultActions resultadoSalvar = mockMvc.perform(MockMvcRequestBuilders.post("/salvarCoco")
-		   .content(objectMapper.writeValueAsString(novoCoco)).accept(MediaType.APPLICATION_JSON)
+		// Salva o novo objeto UsuarioTeste
+		ResultActions resultadoSalvar = mockMvc.perform(MockMvcRequestBuilders.post("/salvarUsuarioTeste")
+		   .content(objectMapper.writeValueAsString(novoUsuarioTeste)).accept(MediaType.APPLICATION_JSON)
 		   .contentType(MediaType.APPLICATION_JSON));
 		
-		// Desserializa o retorno da API para um objeto Coco
-		coco = objectMapper.readValue(resultadoSalvar.andReturn().getResponse().getContentAsString(),
-		   Coco.class);
+		// Desserializa o retorno da API para um objeto UsuarioTeste
+		user = objectMapper.readValue(resultadoSalvar.andReturn().getResponse().getContentAsString(),
+		   UsuarioTeste.class);
 	}
 	
 	@AfterEach
 	public void aftercada() throws Exception {
-		System.out.println("AfterEach " + coco.getId());
-		// ID do objeto Coco que você deseja deletar
-		Long cocoId = coco.getId();
-		System.out.println("TODO: _id " + coco.getId());
+		System.out.println("AfterEach " + user.getId());
+		// ID do objeto UsuarioTeste que você deseja deletar
+		Long userId = user.getId();
+		System.out.println("TODO: _id " + user.getId());
 		// Cria um MockMvc a partir do contexto da aplicação web
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(wac);
 		MockMvc mockMvc = builder.build();
@@ -69,11 +68,12 @@ public class CocoTests {
 		ObjectMapper mapper = new ObjectMapper();
 		
 		// Realiza uma requisição DELETE para a rota
-		// /deleteCoco/{id}
+		// /deleteUsuarioTeste/{id}
 		ResultActions resultadoAPI = mockMvc
-		   .perform(MockMvcRequestBuilders.delete("/deleteCoco/{id}", cocoId) // Substitui {id} pelo
+		   .perform(MockMvcRequestBuilders.delete("/deleteUsuarioTeste/{id}", userId) // Substitui
+		                                                                              // {id} pelo
 		                                                                      // ID real do objeto
-		                                                                      // Coco
+		                                                                      // UsuarioTeste
 		      .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON));
 		
 		// Imprime o retorno da API
@@ -83,79 +83,79 @@ public class CocoTests {
 	
 	@Test
 	@Order(1)
-	public void testeRestCadastroCoco() throws JsonProcessingException, Exception {
+	public void testeRestCadastroUsuarioTeste() throws JsonProcessingException, Exception {
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(wac);
 		MockMvc mockMvc = builder.build();
 		
-		Coco coco = new Coco();
-		coco.setCheiro("Bom" + Calendar.getInstance().getTimeInMillis());
-		coco.setDono("Anderson" + Calendar.getInstance().getTimeInMillis());
+		UsuarioTeste user = new UsuarioTeste();
+		user.setNome("Bom" + Calendar.getInstance().getTimeInMillis());
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		
-		ResultActions retornoApi = mockMvc.perform(MockMvcRequestBuilders.post("/salvarCoco")
-		   .content(objectMapper.writeValueAsString(coco)).accept(MediaType.APPLICATION_JSON)
+		ResultActions retornoApi = mockMvc.perform(MockMvcRequestBuilders.post("/salvarUsuarioTeste")
+		   .content(objectMapper.writeValueAsString(user)).accept(MediaType.APPLICATION_JSON)
 		   .contentType(MediaType.APPLICATION_JSON));
 		
 		System.out
 		   .println("Retorno da API: " + retornoApi.andReturn().getResponse().getContentAsString());
 		
-		Coco objetoRetorno = objectMapper
-		   .readValue(retornoApi.andReturn().getResponse().getContentAsString(), Coco.class);
+		UsuarioTeste objetoRetorno = objectMapper
+		   .readValue(retornoApi.andReturn().getResponse().getContentAsString(), UsuarioTeste.class);
 		
-		System.out.println("salvar" + coco.getId());
+		System.out.println("salvar" + user.getId());
 		assertEquals(true, objetoRetorno.getId() > 0);
-		assertEquals(coco.getCheiro(), objetoRetorno.getCheiro());
+		assertEquals(user.getNome(), objetoRetorno.getNome());
 		
 	}
 	
 	@Test
 	@Order(2)
-	public void testeTodosCocos() throws JsonProcessingException, Exception {
+	public void testeTodosUsuarioTestes() throws JsonProcessingException, Exception {
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(wac);
 		MockMvc mockMvc = builder.build();
 
 		
 		ObjectMapper mapper = new ObjectMapper();
 		ResultActions retornoApi = mockMvc
-		   .perform(MockMvcRequestBuilders.get("/todosCocos")
+		   .perform(MockMvcRequestBuilders.get("/todosUsuarioTestes")
 		      .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON));
 		
 		System.out
 		   .println("TODO: Retorno API" + retornoApi.andReturn().getResponse().getContentAsString());
 		
-		List<Coco> cocos = mapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(),
-		   new TypeReference<List<Coco>>() {
+		List<UsuarioTeste> users = mapper.readValue(
+		   retornoApi.andReturn().getResponse().getContentAsString(),
+		   new TypeReference<List<UsuarioTeste>>() {
 		   });
 		
-		assertEquals(true, cocos.size() > 0);
+		assertEquals(true, users.size() > 0);
 		
 	}
 	
 	@Test
 	@Order(3)
-	public void testAlterarCoco() throws JsonProcessingException, Exception {
+	public void testAlterarUsuarioTeste() throws JsonProcessingException, Exception {
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(wac);
 		MockMvc mockMvc = builder.build();
-		System.out.println("testAlterarCoco " + coco.getId());
-		Coco co = new Coco();
-		co.setId(coco.getId());
-		co.setCheiro("brabo");
-		co.setDono("brabo");
+		System.out.println("testAlterarUsuarioTeste " + user.getId());
+		UsuarioTeste co = new UsuarioTeste();
+		co.setId(user.getId());
+		co.setNome("brabo");
+		co.setIdade(19);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
 		ResultActions resultadoAPI = mockMvc
-		   .perform(MockMvcRequestBuilders.put("/alterarCoco").content(mapper.writeValueAsString(co))
+		   .perform(MockMvcRequestBuilders.put("/alterarUsuarioTeste").content(mapper.writeValueAsString(co))
 		      .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON));
 		
 		System.out.println(
 		   "TODO: retorno da api" + resultadoAPI.andReturn().getResponse().getContentAsString());
-		Coco retotnoApi = mapper
-		   .readValue(resultadoAPI.andReturn().getResponse().getContentAsString(), Coco.class);
+		UsuarioTeste retotnoApi = mapper
+		   .readValue(resultadoAPI.andReturn().getResponse().getContentAsString(), UsuarioTeste.class);
 		
-		assertEquals(true, retotnoApi.getCheiro().equals("brabo"));
-		assertEquals(co.getCheiro(), retotnoApi.getCheiro());
+		assertEquals(true, retotnoApi.getNome().equals("brabo"));
+		assertEquals(co.getNome(), retotnoApi.getNome());
 		
 	}
 	
@@ -163,11 +163,11 @@ public class CocoTests {
 
 	@Test
 	@Order(4)
-	public void testDeleteCoco() throws Exception {
-		System.out.println("testDeleteCoco " + coco.getId());
-		// ID do objeto Coco que você deseja deletar
-		Long cocoId = coco.getId();
-		System.out.println("TODO: _id " + coco.getId());
+	public void testDeleteUsuarioTeste() throws Exception {
+		System.out.println("testDeleteUsuarioTeste " + user.getId());
+		// ID do objeto UsuarioTeste que você deseja deletar
+		Long userId = user.getId();
+		System.out.println("TODO: _id " + user.getId());
 		// Cria um MockMvc a partir do contexto da aplicação web
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(wac);
 		MockMvc mockMvc = builder.build();
@@ -177,21 +177,22 @@ public class CocoTests {
 		ObjectMapper mapper = new ObjectMapper();
 		
 		// Realiza uma requisição DELETE para a rota
-		// /deleteCoco/{id}
+		// /deleteUsuarioTeste/{id}
 		ResultActions resultadoAPI = mockMvc
-		   .perform(MockMvcRequestBuilders.delete("/deleteCoco/{id}", cocoId) // Substitui {id} pelo
+		   .perform(MockMvcRequestBuilders.delete("/deleteUsuarioTeste/{id}", userId) // Substitui
+		                                                                              // {id} pelo
 		                                                                      // ID real do objeto
-		                                                                      // Coco
+		                                                                      // UsuarioTeste
 		      .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON));
 		
 		// Imprime o retorno da API
 		System.out
 		   .println("Retorno da API: " + resultadoAPI.andReturn().getResponse().getContentAsString());
 		
-		// Desserializa o retorno da API para um objeto Coco
+		// Desserializa o retorno da API para um objeto UsuarioTeste
 		String retornoApi = resultadoAPI.andReturn().getResponse().getContentAsString();
 		
-		// Verifica se o atributo Cheiro do objeto Coco retornado
+		// Verifica se o atributo Nome do objeto UsuarioTeste retornado
 		// pela API é igual a "brabo"
 		assertEquals("deletado com sucesso", retornoApi);
 	}

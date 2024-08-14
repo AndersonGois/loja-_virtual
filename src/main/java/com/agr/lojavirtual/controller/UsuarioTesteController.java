@@ -16,22 +16,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agr.lojavirtual.ExceptionLojaVirtual;
-import com.agr.lojavirtual.model.Coco;
-import com.agr.lojavirtual.service.CocoService;
+import com.agr.lojavirtual.model.UsuarioTeste;
+import com.agr.lojavirtual.service.UsuarioService;
 
 @Controller
 @RestController
-public class CocoController {
+public class UsuarioTesteController {
 	
 	@Autowired
-	private CocoService cocoService;
+	private UsuarioService userService;
 	
 	@ResponseBody
-	@PostMapping(value = "/salvarCoco")
-	public ResponseEntity<?> salvarCoco(@RequestBody Coco coco) throws ExceptionLojaVirtual {
+	@PostMapping(value = "/salvarUsuarioTeste")
+	public ResponseEntity<?> salvarUsuario(@RequestBody UsuarioTeste user)
+	   throws ExceptionLojaVirtual {
 		try {
-			Coco cocoSalvo = cocoService.salvar(coco);
-			return ResponseEntity.status(HttpStatus.OK).body(cocoSalvo);
+			UsuarioTeste userSalvo = userService.salvar(user);
+			return ResponseEntity.status(HttpStatus.OK).body(userSalvo);
 			
 		} catch (ExceptionLojaVirtual e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -39,11 +40,12 @@ public class CocoController {
 	}
 	
 	@ResponseBody
-	@PutMapping(value = "/alterarCoco")
-	public ResponseEntity<?> alterarCoco(@RequestBody Coco coco) throws ExceptionLojaVirtual {
+	@PutMapping(value = "/alterarUsuarioTeste")
+	public ResponseEntity<?> alterarUsuario(@RequestBody UsuarioTeste user)
+	   throws ExceptionLojaVirtual {
 		try {
-			Coco cocoSalvo = cocoService.salvar(coco);
-			return ResponseEntity.status(HttpStatus.OK).body(cocoSalvo);
+			UsuarioTeste userSalvo = userService.alterar(user);
+			return ResponseEntity.status(HttpStatus.OK).body(userSalvo);
 			
 		} catch (ExceptionLojaVirtual e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -51,10 +53,10 @@ public class CocoController {
 	}
 	
 	@ResponseBody
-	@DeleteMapping(value = "/deleteCoco/{id}")
-	public ResponseEntity<?> deleteCoco(@PathVariable Long id) throws ExceptionLojaVirtual {
+	@DeleteMapping(value = "/deleteUsuarioTeste/{id}")
+	public ResponseEntity<?> deleteUsuario(@PathVariable Long id) throws ExceptionLojaVirtual {
 		try {
-			cocoService.delete(id);
+			userService.delete(id);
 			return ResponseEntity.status(HttpStatus.OK).body("deletado com sucesso");
 			
 		} catch (Exception e) {
@@ -63,9 +65,9 @@ public class CocoController {
 	}
 	
 	@ResponseBody
-	@GetMapping(value = "/todosCocos")
-	public ResponseEntity<?> todosCocos() throws ExceptionLojaVirtual {
-		List<Coco> todos = cocoService.todosCocos();
+	@GetMapping(value = "/todosUsuariosTeste")
+	public ResponseEntity<?> todosUsuariosTeste() throws ExceptionLojaVirtual {
+		List<UsuarioTeste> todos = userService.todosUsuarios();
 		System.out.println(todos);
 		return ResponseEntity.status(HttpStatus.OK).body(todos);
 	}

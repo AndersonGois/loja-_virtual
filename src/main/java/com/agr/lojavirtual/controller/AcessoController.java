@@ -1,7 +1,5 @@
 package com.agr.lojavirtual.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -93,10 +91,10 @@ public class AcessoController {
 //		return new ResponseEntity<Acesso>(acesso,HttpStatus.OK);
 //	}
 	
-	@ResponseBody   
-	@GetMapping(value = "/obterAcessoPorDesc/{desc}")
-	public ResponseEntity<List<Acesso>>  obterAcessoPorId(@PathVariable(name = "desc") String desc) {
-		List<Acesso> acessos = acessoService.obterAcessoPordesc(desc);
-		return new ResponseEntity<List<Acesso>>(acessos,HttpStatus.OK);
-	}
+//	@ResponseBody   
+//	@GetMapping(value = "/obterAcessoPorDesc/{desc}")
+//	public ResponseEntity<List<Acesso>>  obterAcessoPorId(@PathVariable(name = "desc") String desc) {
+//		List<Acesso> acessos = acessoService.obterAcessoPordesc(desc);
+//		return new ResponseEntity<List<Acesso>>(acessos,HttpStatus.OK);
+//	}
 }
