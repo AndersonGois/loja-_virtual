@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agr.lojavirtual.ExceptionLojaVirtual;
 import com.agr.lojavirtual.model.UsuarioTeste;
 import com.agr.lojavirtual.service.UsuarioService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RestController
@@ -66,9 +68,11 @@ public class UsuarioTesteController {
 	
 	@ResponseBody
 	@GetMapping(value = "/todosUsuariosTeste")
-	public ResponseEntity<?> todosUsuariosTeste() throws ExceptionLojaVirtual {
+	public ResponseEntity<?> todosUsuariosTeste()
+	   throws ExceptionLojaVirtual, JsonProcessingException {
 		List<UsuarioTeste> todos = userService.todosUsuarios();
-		System.out.println(todos);
+		
+		System.out.println("TODO: " + new ObjectMapper().writeValueAsString(todos));
 		return ResponseEntity.status(HttpStatus.OK).body(todos);
 	}
 
