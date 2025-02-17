@@ -4,6 +4,9 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.agr.lojavirtual.ExceptionLojaVirtual;
@@ -58,8 +61,19 @@ public class UsuarioService {
 			userTesteRepository.deleteById(id);
 			
 		} catch (Exception e) {
-			throw new ExceptionLojaVirtual(String.format("Não existe coco com o id %d informado", id));
+			throw new ExceptionLojaVirtual(String.format("Não existe usuario com o id %d informado", id));
 		}
 	}
+
+	public UsuarioTeste usuarioById(Long id) {
+		return userTesteRepository.findById(id).orElse(new UsuarioTeste());
 	
+	}
+	
+	public Page<UsuarioTeste> findAllUsuarioPaginado(int page, int size) {
+		System.out.println(size);
+		System.out.println(page);
+		Pageable pageable = PageRequest.of(page, size);
+		return userTesteRepository.findAll(pageable);
+	}
 }
