@@ -80,7 +80,7 @@ public class AcessoController {
 		return new ResponseEntity<Acesso>(acesso, HttpStatus.OK);
 	}
 	
-//	@ResponseBody
+//	@ResponseBody //TODO: verificar esse codigo
 //	@GetMapping(value = "/obterAcessoById/{id}")
 //	public ResponseEntity<Acesso> obterAcessoById(@PathVariable Long id)
 //	   throws ExceptionLojaVirtual {
